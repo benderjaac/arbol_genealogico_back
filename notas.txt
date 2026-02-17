@@ -1,0 +1,2 @@
+Para generar .jar
+mvnw.cmd clean package -DskipTests
