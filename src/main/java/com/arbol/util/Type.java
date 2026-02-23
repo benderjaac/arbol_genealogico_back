@@ -3,15 +3,7 @@ package com.arbol.util;
 public enum Type {
 
     USUARIO("Usuario", "Id Usuario"),
-    GASTO("Gasto", "Id Gasto"),
-    MOVIMIENTO("Movimiento", "Id Movimiento"),
-    INGRESO("Ingreso", "Id Ingreso"),
-    CATEGORIAGASTO("Categoria de gasto", "Id Categoria"),
-    CATEGORIAINGRESO("Categoria de ingreso", "Id Categoria"),
-    AHORRO("Ahorro", "Id Ahorro"),
-    AHORRODEPOSITO("Deposito", "Id Deposito"),
-    BALANCE_USUARIO("Balance", "Id Balance"),
-    ESTADISTICA("Estadisticas", "Id estadistica"),
+    UNION("Union", "Id Union"),
     ;
 
     private String display;

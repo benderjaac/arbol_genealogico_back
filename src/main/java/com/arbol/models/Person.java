@@ -45,4 +45,13 @@ public class Person {
 
     private String notas;
 
+    @Column(nullable = false)
+    private Boolean placeholder = false;
+
+    @Transient
+    public String getNombreCompleto() {
+        return this.nombre + " " + this.apellidoPaterno + " " + this.apellidoMaterno;
+    }
+// https://code.balkan.app/family-tree-js/royal-family-tree#JS
 }
+

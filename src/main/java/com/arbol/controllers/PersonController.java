@@ -3,7 +3,6 @@ package com.arbol.controllers;
 import com.arbol.models.db.Query;
 import com.arbol.models.response.HttpOk;
 import com.arbol.services.PersonService;
-import com.arbol.services.UserService;
 import com.arbol.util.Response;
 import com.arbol.util.Type;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +22,7 @@ public class PersonController {
     @Autowired
     private PersonService personService;
 
-    @PreAuthorize("hasAuthority('person_select')")
+    @PreAuthorize("hasAuthority('arbol_select')")
     @PostMapping("/data")
     public ResponseEntity<HttpOk> findAll(
             HttpServletRequest request,
