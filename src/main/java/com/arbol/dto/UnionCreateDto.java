@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class CreateUnionRequestDto {
+public class UnionCreateDto {
     private Long person1Id;
     private Long person2Id; // puede ser null para placeholder
     private LocalDate fechaInicio;

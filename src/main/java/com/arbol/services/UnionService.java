@@ -1,12 +1,9 @@
 package com.arbol.services;
 
-import com.arbol.dto.CreateUnionRequestDto;
-import com.arbol.dto.PersonSimpleDto;
+import com.arbol.dto.UnionCreateDto;
 import com.arbol.dto.UnionDto;
 import com.arbol.models.Person;
 import com.arbol.models.Union;
-import com.arbol.models.db.Query;
-import com.arbol.models.db.Result;
 import com.arbol.repositories.PersonRepository;
 import com.arbol.repositories.UnionChildRepository;
 import com.arbol.repositories.UnionRepository;
@@ -27,8 +24,8 @@ public class UnionService {
     private final PersonService personService;
     private final UnionChildRepository unionChildRepository;
 
-    //Crear union
-    public UnionDto createUnion(CreateUnionRequestDto requets) {
+    //CREAR UNION
+    public UnionDto createUnion(UnionCreateDto requets) {
 
         Person p1 = personRepository.findById(requets.getPerson1Id())
                 .orElseThrow(() -> new RuntimeException("Person1 no encontrada"));
@@ -62,7 +59,7 @@ public class UnionService {
         return new UnionDto(unionRepository.save(union));
     }
 
-    //Eliminar union (si no existen hijos)
+    //ELIMINAR UNION (si no existen hijos)
     public void deleteUnion(Long unionId) {
 
         if (unionChildRepository.existsByUnionId(unionId)) {
@@ -72,8 +69,8 @@ public class UnionService {
         unionRepository.deleteById(unionId);
     }
 
-    //Editar union (sin cambiar padres si hay hijos)
-    public UnionDto updateUnion(Long unionId, CreateUnionRequestDto request) {
+    //EDITAR UNION (sin cambiar padres si hay hijos)
+    public UnionDto updateUnion(Long unionId, UnionCreateDto request) {
         Union union = unionRepository.findById(unionId)
                 .orElseThrow(() -> new RuntimeException("Unión no encontrada"));
 
@@ -96,7 +93,7 @@ public class UnionService {
         return new UnionDto(unionRepository.save(union));
     }
 
-    //Seleccionar uniones (por alguna persona, person1 o person2)
+    //BUSCAR UNIONES DE UNA PERSONA (por alguna persona, person1 o person2)
     @Transactional(readOnly = true)
     public List<UnionDto> findUnionsByPerson(Long personId) {
         List<Union> result = unionRepository.findByPerson(personId);

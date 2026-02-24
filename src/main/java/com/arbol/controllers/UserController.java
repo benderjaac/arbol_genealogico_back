@@ -12,6 +12,7 @@ import com.arbol.services.UserService;
 import com.arbol.util.Response;
 import com.arbol.util.Type;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,15 +20,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserController {
 
-    private Response response = new Response(Type.USUARIO);
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    CustomUserDetailsService customUserDetailsService;
+    private final Response response = new Response(Type.USUARIO);
+    private final UserService userService;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @PreAuthorize("hasAuthority('user_select')")
     @PostMapping("/data")

@@ -3,15 +3,17 @@ package com.arbol.services;
 import com.arbol.models.Perfil;
 import com.arbol.models.Permiso;
 import com.arbol.repositories.PerfilRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class PerfilService {
-    @Autowired
-    private PerfilRepository perfilRepository;
+
+    private final PerfilRepository perfilRepository;
 
     public Optional<Perfil> getPerfilById(Long id) {
         return perfilRepository.findById(id);

@@ -3,6 +3,7 @@ package com.arbol.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
 
 import java.time.LocalDate;
 
@@ -48,9 +49,11 @@ public class Person {
     @Column(nullable = false)
     private Boolean placeholder = false;
 
-    @Transient
+    @Formula("concat(nombre, ' ', apellido_paterno, ' ', apellido_materno)")
+    private String nombreCompleto;
+
     public String getNombreCompleto() {
-        return this.nombre + " " + this.apellidoPaterno + " " + this.apellidoMaterno;
+        return nombreCompleto;
     }
 // https://code.balkan.app/family-tree-js/royal-family-tree#JS
 }

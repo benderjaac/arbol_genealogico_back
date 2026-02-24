@@ -29,7 +29,10 @@ public class PersonSimpleDto {
 
     public PersonSimpleDto(Person person) {
         this.id = person.getId();
-        this.nombreCompleto = person.getNombre()+' '+person.getApellidoPaterno()+' '+person.getApellidoPaterno();
+        this.nombreCompleto = person.getNombre() + " " +
+                (person.getApellidoPaterno() != null ? person.getApellidoPaterno() : "") + " " +
+                (person.getApellidoMaterno() != null ? person.getApellidoMaterno() : "");
+
         this.alias = person.getAlias();
 
         Person padre =  person.getPadre();

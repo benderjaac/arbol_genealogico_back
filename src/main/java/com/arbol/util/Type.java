@@ -3,6 +3,7 @@ package com.arbol.util;
 public enum Type {
 
     USUARIO("Usuario", "Id Usuario"),
+    PERSON("Persona", "Id Persona"),
     UNION("Union", "Id Union"),
     ;
 

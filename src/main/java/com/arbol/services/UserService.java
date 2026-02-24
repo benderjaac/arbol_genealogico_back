@@ -13,6 +13,7 @@ import com.arbol.repositories.DBRepository;
 import com.arbol.repositories.PerfilRepository;
 import com.arbol.repositories.UserRepository;
 import com.arbol.util.Type;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,21 +22,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-    @Autowired
-    private UserRepository userRepository;
 
-    @Autowired
-    private PerfilRepository perfilRepository;
-
-    @Autowired
-    private PerfilService perfilService;
-
-    @Autowired
-    private DBRepository db;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PerfilRepository perfilRepository;
+    private final PerfilService perfilService;
+    private final DBRepository db;
+    private final PasswordEncoder passwordEncoder;
 
     public Result<UserSimpleDto> findAllSimple(Query query){
         query.addFetch("perfil");

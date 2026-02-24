@@ -1,12 +1,12 @@
 package com.arbol.controllers;
 
-import com.arbol.dto.CreateUnionRequestDto;
+import com.arbol.dto.UnionCreateDto;
 import com.arbol.dto.UnionDto;
-import com.arbol.models.Union;
 import com.arbol.models.response.HttpOk;
 import com.arbol.services.UnionService;
 import com.arbol.util.Response;
 import com.arbol.util.Type;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/unions")
+@RequiredArgsConstructor
 public class UnionController {
-    private Response response = new Response(Type.UNION);
-    @Autowired
-    private UnionService unionService;
+    private final Response response = new Response(Type.UNION);
+    private final UnionService unionService;
 
     // CREAR UNION
     @PreAuthorize("hasAuthority('arbol_edit')")
     @PostMapping
     public ResponseEntity<HttpOk> createUnion(
-            @RequestBody CreateUnionRequestDto request
+            @RequestBody UnionCreateDto request
     ) {
         UnionDto union = unionService.createUnion(request);
 
@@ -45,7 +45,7 @@ public class UnionController {
     @PutMapping("/{id}")
     public ResponseEntity<HttpOk> updateUnion(
             @PathVariable Long id,
-            @RequestBody CreateUnionRequestDto request
+            @RequestBody UnionCreateDto request
     ) {
         UnionDto union = unionService.updateUnion(id, request);
 
