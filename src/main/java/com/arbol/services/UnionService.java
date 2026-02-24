@@ -25,18 +25,18 @@ public class UnionService {
     private final UnionChildRepository unionChildRepository;
 
     //CREAR UNION
-    public UnionDto createUnion(UnionCreateDto requets) {
+    public UnionDto createUnion(UnionCreateDto request) {
 
-        Person p1 = personRepository.findById(requets.getPerson1Id())
+        Person p1 = personRepository.findById(request.getPerson1Id())
                 .orElseThrow(() -> new RuntimeException("Person1 no encontrada"));
 
         Person p2;
 
-        if (requets.getPerson2Id() == null) {
+        if (request.getPerson2Id() == null) {
             String genero = p1.getGenero().equals("m")?"f":"m";
             p2 = personService.createPlaceholder(genero);
         } else {
-            p2 = personRepository.findById(requets.getPerson2Id())
+            p2 = personRepository.findById(request.getPerson2Id())
                     .orElseThrow(() -> new RuntimeException("Person2 no encontrada"));
         }
 
@@ -52,9 +52,9 @@ public class UnionService {
         Union union = new Union();
         union.setPerson1(p1);
         union.setPerson2(p2);
-        union.setFechaInicio(requets.getFechaInicio());
-        union.setFechaFin(requets.getFechaFin());
-        union.setTipo(requets.getTipo());
+        union.setFechaInicio(request.getFechaInicio());
+        union.setFechaFin(request.getFechaFin());
+        union.setTipo(request.getTipo());
 
         return new UnionDto(unionRepository.save(union));
     }

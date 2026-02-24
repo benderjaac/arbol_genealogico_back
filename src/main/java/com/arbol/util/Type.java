@@ -5,6 +5,7 @@ public enum Type {
     USUARIO("Usuario", "Id Usuario"),
     PERSON("Persona", "Id Persona"),
     UNION("Union", "Id Union"),
+    CHILD("Hijo", "Id Hijo - Union"),
     ;
 
     private String display;
