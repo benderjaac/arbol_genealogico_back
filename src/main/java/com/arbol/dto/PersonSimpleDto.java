@@ -13,6 +13,9 @@ import java.time.LocalDate;
 public class PersonSimpleDto {
     private Long id;
     private String nombreCompleto;
+    private String nombre;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
     private String alias;
 
     private Long padre_id=0L;
@@ -29,6 +32,9 @@ public class PersonSimpleDto {
 
     public PersonSimpleDto(Person person) {
         this.id = person.getId();
+        this.nombre = person.getNombre();
+        this.apellidoPaterno = person.getApellidoPaterno();
+        this.apellidoMaterno = person.getApellidoMaterno();
         this.nombreCompleto = person.getNombre() + " " +
                 (person.getApellidoPaterno() != null ? person.getApellidoPaterno() : "") + " " +
                 (person.getApellidoMaterno() != null ? person.getApellidoMaterno() : "");

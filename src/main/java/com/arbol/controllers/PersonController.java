@@ -8,6 +8,7 @@ import com.arbol.services.PersonService;
 import com.arbol.util.Response;
 import com.arbol.util.Type;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -56,7 +57,7 @@ public class PersonController {
     @PutMapping("/{id}")
     public ResponseEntity<HttpOk> updatePerson(
             @PathVariable Long id,
-            @RequestBody PersonCreateDto request
+            @Valid @RequestBody PersonCreateDto request
     ) {
         PersonSimpleDto person = personService.updatePerson(id, request);
 
