@@ -2,6 +2,7 @@ package com.arbol.services;
 
 import com.arbol.dto.UnionCreateDto;
 import com.arbol.dto.UnionDto;
+import com.arbol.dto.UnionSummaryDto;
 import com.arbol.models.Person;
 import com.arbol.models.Union;
 import com.arbol.repositories.PersonRepository;
@@ -95,11 +96,16 @@ public class UnionService {
 
     //BUSCAR UNIONES DE UNA PERSONA (por alguna persona, person1 o person2)
     @Transactional(readOnly = true)
-    public List<UnionDto> findUnionsByPerson(Long personId) {
-        List<Union> result = unionRepository.findByPerson(personId);
-        List<UnionDto> dtoList = result.stream()
-                .map(UnionDto::new)
-                .collect(Collectors.toList());
-        return dtoList;
+    public List<UnionSummaryDto> findUnionsByPerson(Long personId) {
+        List<UnionSummaryDto> asPerson1 =
+                unionRepository.findUnionsWherePerson1(personId);
+
+        List<UnionSummaryDto> asPerson2 =
+                unionRepository.findUnionsWherePerson2(personId);
+
+        asPerson1.addAll(asPerson2);
+
+        return asPerson1;
+
     }
 }
