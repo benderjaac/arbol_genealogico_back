@@ -17,7 +17,6 @@ public class PersonCreateDto {
     private String apellidoPaterno;
 
     private String apellidoMaterno;
-    private String alias;
     private LocalDate fechaNacimiento;
 
     @NotBlank(message = "El género es obligatorio")

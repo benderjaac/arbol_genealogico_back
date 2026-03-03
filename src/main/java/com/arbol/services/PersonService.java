@@ -114,7 +114,6 @@ public class PersonService {
         person.setNombre(dto.getNombre());
         person.setApellidoPaterno(dto.getApellidoPaterno());
         person.setApellidoMaterno(dto.getApellidoMaterno());
-        person.setAlias(dto.getAlias());
         person.setFechaNacimiento(dto.getFechaNacimiento());
         person.setGenero(dto.getGenero());
         person.setFoto(dto.getFoto());

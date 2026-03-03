@@ -32,8 +32,6 @@ public class Person {
 
     private String apellidoMaterno;
 
-    private String alias;
-
     private LocalDate fechaNacimiento;
 
     @Column(nullable = false)

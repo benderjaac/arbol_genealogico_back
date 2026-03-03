@@ -16,7 +16,6 @@ public class PersonSimpleDto {
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
-    private String alias;
 
     private Long padre_id=0L;
     private Long madre_id=0L;
@@ -39,7 +38,6 @@ public class PersonSimpleDto {
                 (person.getApellidoPaterno() != null ? person.getApellidoPaterno() : "") + " " +
                 (person.getApellidoMaterno() != null ? person.getApellidoMaterno() : "");
 
-        this.alias = person.getAlias();
 
         Person padre =  person.getPadre();
         if(padre!=null){
