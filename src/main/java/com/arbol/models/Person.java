@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.hibernate.annotations.Formula;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "persons")
@@ -37,8 +39,12 @@ public class Person {
     @Column(nullable = false)
     private String genero;
 
-    @Column(nullable = false)
-    private String foto;
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Photo> photos = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "main_photo_id")
+    private Photo mainPhoto;
 
     private String lugarNacimiento;
 

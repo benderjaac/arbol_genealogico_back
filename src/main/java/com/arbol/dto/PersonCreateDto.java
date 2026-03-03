@@ -22,7 +22,6 @@ public class PersonCreateDto {
     @NotBlank(message = "El género es obligatorio")
     private String genero;
 
-    private String foto;
     private String lugarNacimiento;
     private String notas;
 

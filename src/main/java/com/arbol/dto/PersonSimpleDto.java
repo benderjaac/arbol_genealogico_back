@@ -5,6 +5,7 @@ import com.arbol.models.User;
 import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDate;
 
@@ -24,7 +25,7 @@ public class PersonSimpleDto {
 
     private LocalDate fechaNacimiento;
     private String genero;
-    private String foto;
+    private String photoUrl;
     private String lugarNacimiento;
     private String notas;
 
@@ -53,7 +54,13 @@ public class PersonSimpleDto {
 
         this.fechaNacimiento=person.getFechaNacimiento();
         this.genero= person.getGenero();
-        this.foto= person.getFoto();
+        if(person.getMainPhoto()!=null){
+            this.photoUrl = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/api/persons/photos/")
+                    .path(person.getMainPhoto().getId().toString())
+                    .toUriString();
+        }
         this.lugarNacimiento= person.getLugarNacimiento();
         this.notas=person.getNotas();
     }
