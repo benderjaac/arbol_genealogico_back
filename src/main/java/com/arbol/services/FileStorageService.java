@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Service
 public class FileStorageService {
-    public String storeFile(MultipartFile file, String fileName, Long personId) {
+    public String storeFile(MultipartFile file, Long personId) {
 
         try {
             String uploadDir = "uploads/persons/" + personId;
@@ -21,6 +21,7 @@ public class FileStorageService {
             Path path = Paths.get(uploadDir);
             Files.createDirectories(path);
 
+            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
             Path filePath = path.resolve(fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 

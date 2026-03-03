@@ -24,6 +24,4 @@ public class Photo {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
     private Person person;
-
-    private boolean mainPhoto;
 }

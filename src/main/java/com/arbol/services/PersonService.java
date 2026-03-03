@@ -62,16 +62,14 @@ public class PersonService {
 
         if (file != null && !file.isEmpty()) {
 
-            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-            String filePath = fileStorageService.storeFile(file, fileName, person.getId());
+            String filePath = fileStorageService.storeFile(file, person.getId());
 
             Photo photo = new Photo();
-            photo.setFileName(fileName);
+            photo.setFileName(file.getOriginalFilename());
             photo.setFilePath(filePath.toString());
             photo.setContentType(file.getContentType());
             photo.setSize(file.getSize());
             photo.setPerson(person);
-            photo.setMainPhoto(true);
 
             photoRepository.save(photo);
 
@@ -102,15 +100,28 @@ public class PersonService {
     }
 
     //EDITAR PERSONA
-    public PersonSimpleDto updatePerson(Long id, PersonCreateDto dto){
-        if (id == null) {
-            throw new RuntimeException("Id requerido para actualizar");
-        }
-
+    public PersonSimpleDto updatePerson(Long id, PersonCreateDto dto, MultipartFile file){
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Persona no encontrada"));
 
         mapDtoToEntity(dto, person);
+
+        if (file != null && !file.isEmpty()) {
+
+            // OPCIÓN SIMPLE: crear nueva foto y marcarla como principal
+            String filePath = fileStorageService.storeFile(file, person.getId());
+
+            Photo photo = new Photo();
+            photo.setFileName(file.getOriginalFilename());
+            photo.setFilePath(filePath);
+            photo.setContentType(file.getContentType());
+            photo.setSize(file.getSize());
+            photo.setPerson(person);
+
+            photoRepository.save(photo);
+
+            person.setMainPhoto(photo);
+        }
 
         personRepository.save(person);
 

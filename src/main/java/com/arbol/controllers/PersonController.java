@@ -68,12 +68,13 @@ public class PersonController {
 
     // ACTUALIZAR PERSONA
     @PreAuthorize("hasAuthority('arbol_edit')")
-    @PutMapping("/{id}")
+    @PutMapping(value ="/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<HttpOk> updatePerson(
             @PathVariable Long id,
-            @Valid @RequestBody PersonCreateDto request
+            @Valid @RequestPart("person") PersonCreateDto dto,
+            @RequestPart(value = "photo", required = false) MultipartFile photo
     ) {
-        PersonSimpleDto person = personService.updatePerson(id, request);
+        PersonSimpleDto person = personService.updatePerson(id, dto, photo);
 
         return response.update(person.getId().toString(), person);
     }
