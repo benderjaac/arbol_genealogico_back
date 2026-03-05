@@ -2,7 +2,6 @@ package com.arbol.services;
 
 import com.arbol.dto.PersonCreateDto;
 import com.arbol.dto.PersonSimpleDto;
-import com.arbol.exceptions.FileStorageException;
 import com.arbol.models.Person;
 import com.arbol.models.Photo;
 import com.arbol.models.db.Query;
@@ -13,13 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,10 +58,8 @@ public class PersonService {
             String filePath = fileStorageService.storeFile(file, person.getId());
 
             Photo photo = new Photo();
-            photo.setFileName(file.getOriginalFilename());
             photo.setFilePath(filePath.toString());
             photo.setContentType(file.getContentType());
-            photo.setSize(file.getSize());
             photo.setPerson(person);
 
             photoRepository.save(photo);
@@ -112,10 +103,8 @@ public class PersonService {
             String filePath = fileStorageService.storeFile(file, person.getId());
 
             Photo photo = new Photo();
-            photo.setFileName(file.getOriginalFilename());
             photo.setFilePath(filePath);
             photo.setContentType(file.getContentType());
-            photo.setSize(file.getSize());
             photo.setPerson(person);
 
             photoRepository.save(photo);
