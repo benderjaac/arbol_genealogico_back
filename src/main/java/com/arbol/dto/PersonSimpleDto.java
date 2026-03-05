@@ -57,7 +57,7 @@ public class PersonSimpleDto {
         if(person.getMainPhoto()!=null){
             this.photoUrl = ServletUriComponentsBuilder
                     .fromCurrentContextPath()
-                    .path("/api/persons/photos/")
+                    .path("/api/photos/")
                     .path(person.getMainPhoto().getId().toString())
                     .toUriString();
         }

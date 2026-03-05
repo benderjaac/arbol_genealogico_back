@@ -79,27 +79,4 @@ public class PersonController {
         return response.update(person.getId().toString(), person);
     }
 
-    //PHOTOS
-    @GetMapping("/photos/{photoId}")
-    public ResponseEntity<Resource> getPhoto(@PathVariable Long photoId) throws IOException {
-
-        Photo photo = photoRepository.findById(photoId)
-                .orElseThrow(() -> new RuntimeException("Photo not found"));
-
-        Path path = Paths.get(photo.getFilePath());
-
-        Resource resource = new UrlResource(path.toUri());
-
-        if (!resource.exists()) {
-            throw new RuntimeException("File not found");
-        }
-        if (!resource.isReadable()) {
-            throw new RuntimeException("File not readable");
-        }
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(photo.getContentType()))
-                .cacheControl(CacheControl.maxAge(30, TimeUnit.DAYS))
-                .body(resource);
-    }
 }

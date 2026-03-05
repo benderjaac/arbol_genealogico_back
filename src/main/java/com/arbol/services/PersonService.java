@@ -6,7 +6,10 @@ import com.arbol.models.Person;
 import com.arbol.models.Photo;
 import com.arbol.models.db.Query;
 import com.arbol.models.db.Result;
-import com.arbol.repositories.*;
+import com.arbol.repositories.DBRepository;
+import com.arbol.repositories.PersonRepository;
+import com.arbol.repositories.UnionChildRepository;
+import com.arbol.repositories.UnionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +27,7 @@ public class PersonService {
     private final PersonRepository personRepository;
     private final UnionRepository unionRepository;
     private final UnionChildRepository unionChildRepository;
-    private final PhotoRepository photoRepository;
-    private final FileStorageService fileStorageService;
+    private final PhotoService photoService;
 
     public Result<PersonSimpleDto> findAllSimple(Query query){
         Result<Person> result = db.findAll(Person.class, query, false);
@@ -55,16 +57,9 @@ public class PersonService {
 
         if (file != null && !file.isEmpty()) {
 
-            String filePath = fileStorageService.storeFile(file, person.getId());
+            Photo newPhoto = photoService.savePhoto(file, person);
 
-            Photo photo = new Photo();
-            photo.setFilePath(filePath.toString());
-            photo.setContentType(file.getContentType());
-            photo.setPerson(person);
-
-            photoRepository.save(photo);
-
-            person.setMainPhoto(photo);
+            person.setMainPhoto(newPhoto);
         }
 
         return new PersonSimpleDto(person);
@@ -99,17 +94,9 @@ public class PersonService {
 
         if (file != null && !file.isEmpty()) {
 
-            // OPCIÓN SIMPLE: crear nueva foto y marcarla como principal
-            String filePath = fileStorageService.storeFile(file, person.getId());
+            Photo newPhoto = photoService.savePhoto(file, person);
 
-            Photo photo = new Photo();
-            photo.setFilePath(filePath);
-            photo.setContentType(file.getContentType());
-            photo.setPerson(person);
-
-            photoRepository.save(photo);
-
-            person.setMainPhoto(photo);
+            person.setMainPhoto(newPhoto);
         }
 
         personRepository.save(person);

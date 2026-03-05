@@ -9,19 +9,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.UUID;
 
 @Service
 public class FileStorageService {
-    public String storeFile(MultipartFile file, Long personId) {
+
+    public String storeFile(MultipartFile file, String uploadDir, String fileName) {
 
         try {
-            String uploadDir = "uploads/persons/" + personId;
-
             Path path = Paths.get(uploadDir);
             Files.createDirectories(path);
 
-            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
             Path filePath = path.resolve(fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
@@ -31,4 +28,7 @@ public class FileStorageService {
             throw new FileStorageException("Error storing file", e);
         }
     }
+
+
+
 }
