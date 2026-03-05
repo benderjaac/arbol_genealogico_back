@@ -1,8 +1,6 @@
 package com.arbol.dto;
 
 import com.arbol.models.Person;
-import com.arbol.models.User;
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -17,11 +15,6 @@ public class PersonSimpleDto {
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
-
-    private Long padre_id=0L;
-    private Long madre_id=0L;
-    private String padreNombreCompleto="";
-    private String madreNombreCompleto="";
 
     private LocalDate fechaNacimiento;
     private String genero;
@@ -39,18 +32,6 @@ public class PersonSimpleDto {
                 (person.getApellidoPaterno() != null ? person.getApellidoPaterno() : "") + " " +
                 (person.getApellidoMaterno() != null ? person.getApellidoMaterno() : "");
 
-
-        Person padre =  person.getPadre();
-        if(padre!=null){
-            this.padre_id=padre.getId();
-            this.padreNombreCompleto = padre.getNombre()+' '+padre.getApellidoPaterno()+' '+padre.getApellidoPaterno();
-        }
-
-        Person madre =  person.getMadre();
-        if(madre!=null){
-            this.madre_id=madre.getId();
-            this.madreNombreCompleto = madre.getNombre()+' '+madre.getApellidoPaterno()+' '+madre.getApellidoPaterno();
-        }
 
         this.fechaNacimiento=person.getFechaNacimiento();
         this.genero= person.getGenero();

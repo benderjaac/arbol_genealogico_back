@@ -19,14 +19,6 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "padre_id")
-    private Person padre;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "madre_id")
-    private Person madre;
-
     @Column(nullable = false)
     private String nombre;
 
