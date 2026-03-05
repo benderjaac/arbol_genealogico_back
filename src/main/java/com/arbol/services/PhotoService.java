@@ -36,10 +36,11 @@ public class PhotoService {
         }
         String fileName = photoId + extension;
 
-        String filePath = fileStorageService.storeFile(file, uploadDir, fileName);
+        fileStorageService.storeFile(file, uploadDir, fileName);
+        String relativePath = "persons/" + folderName + "/" + fileName;
 
         Photo photo = new Photo();
-        photo.setFilePath(filePath);
+        photo.setFilePath(relativePath);
         photo.setContentType(file.getContentType());
         photo.setPerson(person);
         photo.setId(photoId);

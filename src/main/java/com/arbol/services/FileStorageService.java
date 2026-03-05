@@ -13,7 +13,7 @@ import java.nio.file.StandardCopyOption;
 @Service
 public class FileStorageService {
 
-    public String storeFile(MultipartFile file, String uploadDir, String fileName) {
+    public void storeFile(MultipartFile file, String uploadDir, String fileName) {
 
         try {
             Path path = Paths.get(uploadDir);
@@ -22,7 +22,6 @@ public class FileStorageService {
             Path filePath = path.resolve(fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            return filePath.toString();
 
         } catch (IOException e) {
             throw new FileStorageException("Error storing file", e);
