@@ -25,25 +25,19 @@ public interface UnionRepository extends JpaRepository<Union, Long> {
     List<Union> findByPerson(Long personId);
 
     @Query("""
-    SELECT new com.arbol.dto.UnionSummaryDto(
-        u.id,
-        u.person2,
-        SIZE(u.children)
-    )
-    FROM Union u
+    SELECT u FROM Union u
+    LEFT JOIN FETCH u.children uc
+    LEFT JOIN FETCH uc.child
     WHERE u.person1.id = :personId
 """)
-    List<UnionSummaryDto> findUnionsWherePerson1(@Param("personId") Long personId);
+    List<Union> findUnionsWherePerson1(@Param("personId") Long personId);
 
 
     @Query("""
-    SELECT new com.arbol.dto.UnionSummaryDto(
-        u.id,
-        u.person1,
-        SIZE(u.children)
-    )
-    FROM Union u
+    SELECT u FROM Union u
+    LEFT JOIN FETCH u.children uc
+    LEFT JOIN FETCH uc.child
     WHERE u.person2.id = :personId
 """)
-    List<UnionSummaryDto> findUnionsWherePerson2(@Param("personId") Long personId);
+    List<Union> findUnionsWherePerson2(@Param("personId") Long personId);
 }

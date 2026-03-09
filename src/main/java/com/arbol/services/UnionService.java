@@ -5,6 +5,7 @@ import com.arbol.dto.UnionDto;
 import com.arbol.dto.UnionSummaryDto;
 import com.arbol.models.Person;
 import com.arbol.models.Union;
+import com.arbol.models.UnionChild;
 import com.arbol.repositories.PersonRepository;
 import com.arbol.repositories.UnionChildRepository;
 import com.arbol.repositories.UnionRepository;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -97,15 +99,40 @@ public class UnionService {
     //BUSCAR UNIONES DE UNA PERSONA (por alguna persona, person1 o person2)
     @Transactional(readOnly = true)
     public List<UnionSummaryDto> findUnionsByPerson(Long personId) {
-        List<UnionSummaryDto> asPerson1 =
-                unionRepository.findUnionsWherePerson1(personId);
+        List<Union> unions1 = unionRepository.findUnionsWherePerson1(personId);
+        List<Union> unions2 = unionRepository.findUnionsWherePerson2(personId);
 
-        List<UnionSummaryDto> asPerson2 =
-                unionRepository.findUnionsWherePerson2(personId);
+        List<UnionSummaryDto> result = new ArrayList<>();
 
-        asPerson1.addAll(asPerson2);
+        for (Union u : unions1) {
 
-        return asPerson1;
+            List<Person> children = u.getChildren()
+                    .stream()
+                    .map(UnionChild::getChild)
+                    .toList();
+
+            result.add(new UnionSummaryDto(
+                    u.getId(),
+                    u.getPerson2(),
+                    children
+            ));
+        }
+
+        for (Union u : unions2) {
+
+            List<Person> children = u.getChildren()
+                    .stream()
+                    .map(UnionChild::getChild)
+                    .toList();
+
+            result.add(new UnionSummaryDto(
+                    u.getId(),
+                    u.getPerson1(),
+                    children
+            ));
+        }
+
+        return result;
 
     }
 }

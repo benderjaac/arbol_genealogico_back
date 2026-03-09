@@ -3,6 +3,8 @@ package com.arbol.dto;
 import com.arbol.models.Person;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 public class UnionSummaryDto {
 
@@ -10,16 +12,19 @@ public class UnionSummaryDto {
 
     private PersonSimpleDto spouse;
 
-    private Integer childrenCount;
+    private List<PersonSimpleDto> children;
 
     public UnionSummaryDto(
             Long unionId,
             Person spouse,
-            Integer childrenCount
+            List<Person> children
     ) {
         this.unionId = unionId;
         this.spouse = new PersonSimpleDto(spouse);
-        this.childrenCount = childrenCount;
+        this.children = children
+                .stream()
+                .map(PersonSimpleDto::new)
+                .toList();
     }
 
 }
