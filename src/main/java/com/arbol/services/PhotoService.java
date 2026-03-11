@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 @Service
@@ -26,7 +28,7 @@ public class PhotoService {
 
         String folderName = buildPersonFolderName(person);
 
-        String uploadDir = this.uploadDir + "/persons/" + folderName;
+        Path uploadPath = Paths.get(uploadDir, "persons", folderName);
 
         String originalName = file.getOriginalFilename();
         String extension = "";
@@ -36,7 +38,7 @@ public class PhotoService {
         }
         String fileName = photoId + extension;
 
-        fileStorageService.storeFile(file, uploadDir, fileName);
+        fileStorageService.storeFile(file, uploadPath.toString(), fileName);
         String relativePath = "persons/" + folderName + "/" + fileName;
 
         Photo photo = new Photo();
