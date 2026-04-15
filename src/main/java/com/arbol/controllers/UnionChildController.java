@@ -66,7 +66,7 @@ public class UnionChildController {
     // ARBOL DE ASCENDENCIA
     @PreAuthorize("hasAuthority('arbol_select')")
     @GetMapping("/ascendencia/{id}")
-    public ResponseEntity<PersonTreeDto> getAscendencia(@PathVariable Long id) {
-        return ResponseEntity.ok(unionChildService.getAscendencia(id));
+    public ResponseEntity<HttpOk> getAscendencia(@PathVariable Long id) {
+        return response.find(unionChildService.getAscendencia(id));
     }
 }
