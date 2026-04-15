@@ -34,12 +34,13 @@ public class UnionChildController {
 
     // ELIMINAR HIJO-UNION
     @PreAuthorize("hasAuthority('arbol_edit')")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{unionId}/{childId}")
     public ResponseEntity<HttpOk> deleteUnionChild(
-            @PathVariable Long id
+            @PathVariable Long unionId,
+            @PathVariable Long childId
     ) {
-        unionChildService.deleteUnionChild(id);
-        return response.delete(id.toString());
+        unionChildService.deleteUnionChild(unionId, childId);
+        return response.delete(childId.toString());
     }
 
     // ACTUALIZAR HIJO-UNION

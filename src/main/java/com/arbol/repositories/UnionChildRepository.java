@@ -17,4 +17,6 @@ public interface UnionChildRepository extends JpaRepository<UnionChild, Long> {
         boolean existsByUnionIdAndChildId(Long unionId, Long childId);
 
         List<UnionChild> findByUnionId(Long unionId);
+
+        void deleteByUnionIdAndChildId(Long unionId, Long childId);
 }

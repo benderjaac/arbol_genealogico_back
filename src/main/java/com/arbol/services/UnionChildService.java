@@ -43,6 +43,10 @@ public class UnionChildService {
             throw new RuntimeException("La unión con hijo ya existe");
         }
 
+        if(unionChildRepository.existsByChildId(person.getId())){
+            throw new RuntimeException("La persona ya es hijo de una pareja");
+        }
+
         UnionChild unionChild = new UnionChild();
         unionChild.setChild(person);
         unionChild.setUnion(union);
@@ -51,8 +55,11 @@ public class UnionChildService {
     }
 
     //ELIMINAR HIJO-UNION
-    public void deleteUnionChild(Long id) {
-        unionChildRepository.deleteById(id);
+    public void deleteUnionChild(Long unionId, Long childId) {
+        if(!unionChildRepository.existsByUnionIdAndChildId(unionId, childId)){
+            throw new RuntimeException("El hijo no pertenece a esa unión");
+        }
+        unionChildRepository.deleteByUnionIdAndChildId(unionId, childId);
     }
 
     //EDITAR CHILD-UNION
