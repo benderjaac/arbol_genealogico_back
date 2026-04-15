@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UnionChildRepository extends JpaRepository<UnionChild, Long> {
 
@@ -19,4 +20,13 @@ public interface UnionChildRepository extends JpaRepository<UnionChild, Long> {
         List<UnionChild> findByUnionId(Long unionId);
 
         void deleteByUnionIdAndChildId(Long unionId, Long childId);
+
+        @Query("""
+                    SELECT uc FROM UnionChild uc
+                    JOIN FETCH uc.union u
+                    JOIN FETCH u.person1
+                    JOIN FETCH u.person2
+                    WHERE uc.child.id = :personId
+                """)
+        Optional<UnionChild> findParentUnion(Long personId);
 }

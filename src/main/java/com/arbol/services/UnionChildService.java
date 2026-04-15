@@ -1,9 +1,6 @@
 package com.arbol.services;
 
-import com.arbol.dto.PersonSimpleDto;
-import com.arbol.dto.UnionChildCreateDto;
-import com.arbol.dto.UnionChildDto;
-import com.arbol.dto.UnionDto;
+import com.arbol.dto.*;
 import com.arbol.models.Person;
 import com.arbol.models.Union;
 import com.arbol.models.UnionChild;
@@ -14,7 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -109,5 +109,43 @@ public class UnionChildService {
                 .map(UnionChild::getChild)
                 .map(PersonSimpleDto::new)
                 .collect(Collectors.toList());
+    }
+
+    //OBTENER EL ARBOL DE ASCENDENCIA DE UNA PERSONA
+    @Transactional(readOnly = true)
+    public PersonTreeDto getAscendencia(Long personId) {
+
+        return buildTree(personId, new HashSet<>());
+    }
+
+    private PersonTreeDto buildTree(Long personId, Set<Long> visited) {
+
+        if (personId == null || visited.contains(personId)) return null;
+
+        visited.add(personId);
+
+        Person person = personRepository.findById(personId)
+                .orElseThrow(() -> new RuntimeException("Persona no encontrada"));
+
+        PersonTreeDto dto = new PersonTreeDto(person);
+
+        Optional<UnionChild> ucOpt = unionChildRepository.findParentUnion(personId);
+
+        if (ucOpt.isPresent()) {
+
+            Union union = ucOpt.get().getUnion();
+            Person p1 = union.getPerson1();
+            Person p2 = union.getPerson2();
+
+            if ("M".equals(p1.getGenero())) {
+                dto.setPadre(buildTree(p1.getId(), visited));
+                dto.setMadre(buildTree(p2.getId(), visited));
+            } else {
+                dto.setPadre(buildTree(p2.getId(), visited));
+                dto.setMadre(buildTree(p1.getId(), visited));
+            }
+        }
+
+        return dto;
     }
 }

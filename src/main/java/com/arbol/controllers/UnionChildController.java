@@ -1,9 +1,6 @@
 package com.arbol.controllers;
 
-import com.arbol.dto.UnionChildCreateDto;
-import com.arbol.dto.UnionChildDto;
-import com.arbol.dto.UnionCreateDto;
-import com.arbol.dto.UnionDto;
+import com.arbol.dto.*;
 import com.arbol.models.response.HttpOk;
 import com.arbol.services.UnionChildService;
 import com.arbol.services.UnionService;
@@ -64,5 +61,12 @@ public class UnionChildController {
         return response.find(
                 unionChildService.findChildsByUnion(unionId)
         );
+    }
+
+    // ARBOL DE ASCENDENCIA
+    @PreAuthorize("hasAuthority('arbol_select')")
+    @GetMapping("/ascendencia/{id}")
+    public ResponseEntity<PersonTreeDto> getAscendencia(@PathVariable Long id) {
+        return ResponseEntity.ok(unionChildService.getAscendencia(id));
     }
 }
